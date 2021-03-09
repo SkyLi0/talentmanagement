@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--多表查询-->
+<mapper namespace="com.a01.talent.dao.MenusDao">
+    <sql id="m1">
+        SELECT p1.ps_id as id,p1.ps_name as name,p2.ps_api_path as path,p2.ps_api_order from sys_permission p1,sys_permission_api p2
+    </sql>
+    <resultMap id="MenusMap" type="Menus">
+        <id property="id" column="id" />
+        <result property="authName" column="name" />
+        <result property="path" column="path" />
+        <result property="order" column="ps_api_order" />
+        <collection property="children" ofType="Menus" column="id" select="getMenuChildren"/>
+    </resultMap>
+    <select id="getMenus" parameterType="Menus" resultMap="MenusMap">
+        <include refid="m1" />
+        where p1.ps_level = '0' and p1.ps_id=p2.ps_id and p1.role_id=#{roleId} ORDER BY p2.ps_api_order ASC
+    </select>
+    <select id="getMenuChildren" parameterType="Menus" resultMap="MenusMap">
+        <include refid="m1" />
+        where p1.ps_pid = #{id} and p1.ps_id=p2.ps_id and p1.ps_level='1'and p1.role_id=#{roleId} ORDER BY p2.ps_api_order ASC
+    </select>
+</mapper>

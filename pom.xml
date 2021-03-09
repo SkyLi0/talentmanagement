@@ -130,8 +130,8 @@
             <version>3.5.1</version>
         </dependency>
         <dependency>
-            <groupId>jar.io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId> jjwt</artifactId>
             <version>0.6.0</version>
         </dependency>
     </dependencies>

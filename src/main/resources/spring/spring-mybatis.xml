@@ -30,6 +30,7 @@
     </bean>
 
 
+
     <!--配置MyBatis的工厂类 ，生成MyBatis框架中的工厂对象-->
     <bean id="sf" class="org.mybatis.spring.SqlSessionFactoryBean">
         <!--    工厂类需要注入数据库连接池的属性        -->

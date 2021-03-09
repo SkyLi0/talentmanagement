@@ -30,6 +30,7 @@
     </bean>
 
 
+
     <!--配置MyBatis的工厂类 ，生成MyBatis框架中的工厂对象-->
     <bean id="sf" class="org.mybatis.spring.SqlSessionFactoryBean">
         <!--    工厂类需要注入数据库连接池的属性        -->
@@ -41,12 +42,12 @@
     </bean>
     <!--扫描DAO层对象的bean-->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.dingli.shop.dao"/>
+        <property name="basePackage" value="com.a01.talent.dao"/>
         <property name="sqlSessionFactoryBeanName" value="sf"/>
     </bean>
 
     <!-- 扫描service层的包，使用注解形式   -->
-    <context:component-scan base-package="com.dingli.shop.biz"/>
+    <context:component-scan base-package="com.a01.talent.biz"/>
 
     <!--   配置声明式事务   dataSource:报错无关紧要  -->
     <!--配置事务管理器，用于管理事务，这里使用的声明式事务编程，并且使用注解方式 -->
@@ -76,6 +77,6 @@
     </tx:advice>
 
     <aop:config>
-        <aop:advisor advice-ref="txAdvice" pointcut="execution(* com.dingli.shop.biz.impl.*.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut="execution(* com.a01.talent.biz.impl.*.*(..))"/>
     </aop:config>
 </beans>

@@ -4,11 +4,10 @@
 <mapper namespace="com.a01.talent.dao.LoginDao">
     <resultMap id="LoginMap" type="LoginPo">
         <id property="user" column="user" />
-        <result property="password" column="password" />
         <result property="role_id" column="role_id" />
         <result property="company_id" column="company_id" />
     </resultMap>
     <select id="findLogin" parameterType="LoginVo" resultMap="LoginMap">
-        select * from sys_role where user=#{username} and password=#{password}
+        select * from sys_login where user=#{username} and password=#{password}
     </select>
 </mapper>

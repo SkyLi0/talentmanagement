@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.a01.talent.dao.EmployeeDao">
+    <resultMap id="employeeMap" type="EmployeePo">
+        <id property="dnumber" column="dnumber"/>
+        <result property="dname" column="dname"/>
+        <collection property="employees" ofType="Employee">
+            <id property="emp_id" column="employee_id"/>
+            <result property="emp_name" column="emp_name"/>
+            <result property="com_id" column="company_id"/>
+            <result property="achive_id" column="archive_id"/>
+            <result property="dnumber" column="dnumber"/>
+        </collection>
+    </resultMap>
+    <select id="findAllEmployee" parameterType="long" resultMap="employeeMap">
+         SELECT a.employee_id,emp_name,a.dnumber,a.company_id,a.archive_id,dname FROM sys_com_employee a,sys_com_department b
+         where a.company_id=#{com_id} AND a.dnumber=b.dnumber
+    </select>
+</mapper>

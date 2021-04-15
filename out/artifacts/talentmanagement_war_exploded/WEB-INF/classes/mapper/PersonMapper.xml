@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.a01.talent.dao.PersonDao">
+    <sql id="a1">
+        select s.archive_id,personname,sex,birthday,age,identity_id,education,address,phone,email,com_id,per_state from sys_talentfiles s
+    </sql>
+    <resultMap id="PersonMap" type="Personmanage">
+        <id property="archive_id" column="archive_id" />
+        <!--    //    出勤率-->
+        <collection property="attendances" column="archive_id" select="showAttendance" ofType="Attendance" />
+        <!--    //    工作经历-->
+        <collection property="workExpers" column="archive_id" select="showWorkExper" ofType="WorkExper" />
+        <!--    //    重大事件记录：违纪事件和优秀事件-->
+        <collection property="goodevents" column="archive_id" select="showImportantPo" ofType="ImportantPo" >
+        </collection>
+<!--        违纪事件-->
+        <collection property="weijievents" column="archive_id" select="showImportantPo1" ofType="ImportantPo" >
+        </collection>
+        <!--    //    评价记录-->
+        <collection property="evaluations" column="archive_id" select="showEvaluatePo" ofType="EvaluatePo" >
+        </collection>
+        <!--    //    绩效完成率-->
+        <collection property="achievements" column="archive_id" select="showAchievements" ofType="Achievements" />
+    </resultMap>
+    <resultMap id="ImportantMap" type="ImportantPo">
+        <id property="com_id" column="company_id"/>
+    </resultMap>
+    <resultMap id="EvaluateMap" type="EvaluatePo">
+        <id property="eva_id" column="eva_id"/>
+        <result property="com_id" column="company_id"/>
+        <result property="employee_id" column="employee_id"/>
+        <result property="employee" column="employee"/>
+        <result property="leader_id" column="leader_id"/>
+        <result property="leader" column="leader_name"/>
+        <result property="evaluate" column="leader_evaluate"/>
+        <result property="eva_date" column="evaluate_date"/>
+    </resultMap>
+<!--    查询全部档案信息-->
+    <select id="getAllPerson" resultMap="PersonMap">
+        <include refid="a1" />
+    </select>
+<!--    查询单个电话号码的档案信息-->
+    <select id="getOnePerson" parameterType="String" resultMap="PersonMap">
+        <include refid="a1" /> where phone = #{phone}
+    </select>
+    <!--    查询单个档案id号的档案信息-->
+    <select id="selectOnePerson" parameterType="Integer" resultMap="PersonMap">
+        <include refid="a1" /> where archive_id = #{archive_id}
+    </select>
+
+<!--    子集合关系映射-->
+    <select id="showWorkExper" parameterType="Integer" resultType="WorkExper">
+        select work_id,archive_id,company_id,person_position,entry_time,out_time,reason from sys_work_exprience where archive_id=#{archive_id}
+    </select>
+    <select id="showImportantPo" parameterType="Integer" resultMap="ImportantMap">
+         select company_id,archive_id,employee_id,excellent_thing,record_time from sys_com_important where archive_id= #{archive_id} and states = 1
+    </select>
+    <select id="showImportantPo1" parameterType="Integer" resultMap="ImportantMap">
+         select company_id,archive_id,employee_id,violation_thing,record_time from sys_com_important where archive_id= #{archive_id} and states = 2
+    </select>
+    <select id="showEvaluatePo" parameterType="Integer" resultMap="EvaluateMap">
+         select s1.eva_id,s1.archive_id,s1.company_id,s1.employee_id,s4.emp_name as employee,s2.company_name,s3.emp_name as leader_name,s1.leader_evaluate,s1.evaluate_date from
+         sys_com_evaluate s1,sys_company_info s2,sys_com_employee s3,sys_com_employee s4 where s1.archive_id=#{archive_id}
+         and s1.company_id = s2.company_id and s1.leader_id = s3.employee_id and s4.archive_id = s1.archive_id
+    </select>
+    <select id="showAchievements" parameterType="Integer" resultType="Achievements">
+        select s1.record_id,s1.employee_id,s1.company_id,s2.company_name,s1.perform_percent from sys_com_basicrecord s1,sys_company_info s2
+        where s1.archive_id =#{archive_id} and s1.company_id = s2.company_id and s1.record_id =2
+    </select>
+    <select id="showAttendance" parameterType="Integer" resultType="Attendance">
+       select s1.record_id,s1.employee_id,s1.company_id,s2.company_name,s1.attend_percent from sys_com_basicrecord s1,sys_company_info s2
+       where s1.archive_id = #{archive_id} and s1.company_id = s2.company_id and s1.record_id =1
+    </select>
+
+<!--    添加该员工信息-->
+    <insert id="insertEmployee" parameterType="Employee">
+        insert into sys_com_employee(employee_id,archive_id,company_id,emp_name,leader_id,emp_sex,emp_position,phone,email,home_addr,emp_identify,dnumber,emp_birthday,entry_time)
+        VALUES(#{eid},#{aid},#{cid},#{name},#{lid},#{sex},#{emp_position},#{phone},#{email},#{address},#{identify},#{did},#{birthday},NOW());
+    </insert>
+<!--修改人才信息的状态-->
+    <update id="updatePerson" parameterType="PersonManage">
+        update sys_talentfiles set per_state = 2,com_id = null where archive_id = #{archive_id}
+    </update>
+<!--    修改入职成功的状态何公司号-->
+    <update id="updatePerson1" parameterType="PersonManage">
+        update sys_talentfiles set per_state = true,com_id = #{com_id} where archive_id = #{archive_id}
+    </update>
+</mapper>

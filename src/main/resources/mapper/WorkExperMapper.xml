@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.a01.talent.dao.WorkExperDao">
+    <insert id="addWorkExper" parameterType="WorkExper">
+        insert into sys_work_exprience(archive_id,company_id,person_position,entry_time)
+        values (#{archive_id},#{company_id},#{person_position},NOW())
+    </insert>
+
+    <update id="updateWorkExper" parameterType="WorkExper">
+         update sys_work_exprience set out_time=NOW(),reason=#{reason},person_position=#{person_position} where archive_id=#{archive_id} and company_id=#{company_id}
+    </update>
+</mapper>

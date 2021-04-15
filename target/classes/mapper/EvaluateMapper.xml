@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.a01.talent.dao.EvaluateDao">
+    <resultMap id="EvaluateMap" type="EvaluatePo">
+        <id property="eva_id" column="eva_id"/>
+        <result property="com_id" column="company_id"/>
+        <result property="employee_id" column="employee_id"/>
+        <result property="employee" column="emp_name"/>
+        <result property="leader_id" column="leader_id"/>
+        <result property="leader" column="leader_name"/>
+        <result property="evaluate" column="leader_evaluate"/>
+        <result property="eva_date" column="evaluate_date"/>
+    </resultMap>
+    <select id="findAllEvaluate" resultMap="EvaluateMap" parameterType="long">
+        SELECT eva_id,a.company_id,a.employee_id,emp_name,a.leader_id,leader_name,leader_evaluate,evaluate_date FROM
+        sys_com_evaluate a,sys_com_employee b WHERE a.company_id=#{com_id} AND a.employee_id=b.employee_id
+    </select>
+
+    <insert id="insertEvaluate" parameterType="EvaluatePo">
+         INSERT INTO sys_com_evaluate(archive_id,company_id,employee_id,leader_evaluate,leader_id,evaluate_date)
+         VALUES (#{archive_id},#{com_id},#{employee_id},#{evaluate},#{leader_id},#{eva_date})
+    </insert>
+    
+</mapper>

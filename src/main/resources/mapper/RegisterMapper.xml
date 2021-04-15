@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.a01.talent.dao.RegisterDao">
+    <insert id="addcompany" parameterType="RegisterVo">
+        insert into sys_company_info(company_id,company_name,com_phone,com_email,com_addr,com_intro,com_identity_path)
+        values(#{id},#{company_name},#{com_phone},#{com_email},#{com_addr},#{com_intro},#{com_identity_path})
+    </insert>
+    <insert id="adduser" parameterType="RegisterVo">
+        insert into sys_login (user,password,company_id) values (#{username},#{password},#{id});
+    </insert>
+    <select id="findcomid" parameterType="int" resultType="int">
+        select company_id from sys_company_info where company_id=#{comid}
+    </select>
+</mapper>

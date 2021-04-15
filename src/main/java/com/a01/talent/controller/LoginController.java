@@ -22,8 +22,9 @@ public class LoginController {
     private LoginBiz loginBiz;
     @Autowired
     private JwtUtils jwtUtils;
-    @PostMapping("login")
+    @PostMapping("/login")
     public @ResponseBody JsonVo login(@RequestBody LoginVo loginVo){
+        System.out.println(loginVo.getUsername());
         LoginPo loginPo=loginBiz.findLogin(loginVo);
         JsonVo jsonVo=new JsonVo();
         Meta meta=new Meta();

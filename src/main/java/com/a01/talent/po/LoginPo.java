@@ -1,18 +1,19 @@
 package com.a01.talent.po;
 
 public class LoginPo {
-    String user;
+    String username;
     Integer role_id;
     Integer company_id;
     String token;
 
     public String getUser() {
-        return user;
+        return username;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setUser(String username) {
+        this.username = username;
     }
+
 
     public Integer getRole_id() {
         return role_id;

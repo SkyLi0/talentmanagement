@@ -5,7 +5,6 @@ import java.util.List;
 public class Menus {
     private Integer id;
     private String menusName;
-    private Integer roleId;
     private String path;
     private Integer order;
     private List<Menus> children;
@@ -25,13 +24,6 @@ public class Menus {
         this.menusName = menusName;
     }
 
-    public Integer getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
-    }
 
     public String getPath() {
         return path;
@@ -56,4 +48,16 @@ public class Menus {
     public void setChildren(List<Menus> children) {
         this.children = children;
     }
+
+    @Override
+    public String toString() {
+        return "Menus{" +
+                "id=" + id +
+                ", menusName='" + menusName + '\'' +
+                ", path='" + path + '\'' +
+                ", order=" + order +
+                ", children=" + children +
+                '}';
+    }
+
 }

@@ -68,6 +68,8 @@
           <element id="library" level="project" name="Maven: org.codehaus.plexus:plexus-compiler-manager:2.7" />
           <element id="library" level="project" name="Maven: org.codehaus.plexus:plexus-compiler-javac:2.7" />
           <element id="library" level="project" name="Maven: com.mchange:c3p0:0.9.5.2" />
+          <element id="library" level="project" name="Maven: com.github.jsqlparser:jsqlparser:0.9.4" />
+          <element id="library" level="project" name="Maven: com.github.pagehelper:pagehelper:4.2.1" />
         </element>
       </element>
       <element id="javaee-facet-resources" facet="talentmanagement/web/Web" />
